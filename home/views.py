@@ -12,13 +12,6 @@ def categoria(request):
     }
     return render(request, 'categoria/lista.html', contexto)
 
-def form_cartegoria(request):
-    form = CategoriaForm()
-    contexto = {
-        'form': form,
-    }
-    return render(request, 'categoria/formulario.html', contexto)
-
 def form_categoria(request):
     if request.method == 'POST':
        form = CategoriaForm(request.POST) # instancia o modelo com os dados do form
@@ -27,7 +20,7 @@ def form_categoria(request):
             return redirect('categoria') # redireciona para a listagem
     else:# método é get, novo registro
         form = CategoriaForm() # formulário vazio
-        contexto = {
+    contexto = {
         'form':form,
     }
     return render(request, 'categoria/formulario.html', contexto)
