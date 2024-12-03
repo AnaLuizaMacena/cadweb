@@ -27,7 +27,7 @@ def form_categoria(request):
             return redirect('categoria') # redireciona para a listagem
     else:# método é get, novo registro
         form = CategoriaForm() # formulário vazio
-    contexto = {
+        contexto = {
         'form':form,
     }
     return render(request, 'categoria/formulario.html', contexto)
