@@ -2,6 +2,14 @@
 
 {%block title%} Cadastro {%endblock%}
 
+{% if form.errors%}
+<ul>
+    {% for fiel, errors in form.errors.items%}
+        <li>{{ field }}: {{ errors }}</li>
+    {% endfor %} 
+</ul>
+{% endif %}
+
 {%block card%}     {%endblock%}
 
 {% block titulo %} Novo Cadastro {% endblock %}
