@@ -8,4 +8,11 @@ urlpatterns = [
     path('editar_categoria/<int:id>/', views.editar_categoria, name="editar_categoria" ),
     path('detalhes_categoria/<int:id>/', views.detalhes_categoria, name="detalhes_categoria" ),
     path('excluir_categoria/<int:id>/', views.excluir_categoria, name="excluir_categoria" ),
+
+#####################################CLIENTE#######################################################
+    path('cliente/', views.cliente, name="cliente" ),
+    path('cliente/form', views.form_cliente, name="form_cliente" ),
+    path('editar_cliente/<int:id>/', views.editar_cliente, name="editar_cliente" ),
+    path('detalhes_cliente/<int:id>/', views.detalhes_cliente, name="detalhes_cliente" ),
+    path('excluir_cliente/<int:id>/', views.excluir_cliente, name="excluir_cliente" ),
 ]
