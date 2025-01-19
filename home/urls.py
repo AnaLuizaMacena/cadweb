@@ -15,4 +15,12 @@ urlpatterns = [
     path('editar_cliente/<int:id>/', views.editar_cliente, name="editar_cliente" ),
     path('detalhes_cliente/<int:id>/', views.detalhes_cliente, name="detalhes_cliente" ),
     path('excluir_cliente/<int:id>/', views.excluir_cliente, name="excluir_cliente" ),
+
+#####################################PRODUTO################################################
+    path('produto/', views.produto, name="produto" ),
+    path('produto/form', views.form_produto, name="form_produto" ),
+    path('editar_produto/<int:id>/', views.editar_produto, name="editar_produto" ),
+    path('detalhes_produto/<int:id>/', views.detalhes_produto, name="detalhes_produto" ),
+    path('excluir_produto/<int:id>/', views.excluir_produto, name="excluir_produto" ),
+    path('ajustar_estoque/<int:id>/', views.ajustar_estoque, name="ajustar_estoque" ),
 ]
