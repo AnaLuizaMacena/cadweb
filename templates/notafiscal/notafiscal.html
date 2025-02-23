@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nota Fiscal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { border: 2px solid #000; padding: 10px; }
+        .conteudo { border: 1px solid #000; padding: 5px; margin: 5px;}
+        .header, .footer { text-align: center; font-weight: bold; }
+        .info { margin: 10px 0; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .table th, .table td { border: 1px solid black; padding: 8px; text-align: left; }
+        .table th { background-color: #ddd; }
+        .left { text-align: left; float: left }
+        .right { text-align: right; float: right; }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="notaFiscal">
+        <div class="header">DANFE - Documento Auxiliar da Nota Fiscal Eletrônica</div>
+        <div class="conteudo">
+            <div class="info"><strong>CHAVE DE ACESSO:</strong> {{ chave_acesso }}</div>
+        </div>
+
+        <div class="conteudo">
+            <div class="info"><strong>Destinatário:</strong> {{ pedido.cliente.nome }}</div>
+            <div class="info"><strong>CPF/CNPJ:</strong> {{ pedido.cliente.cpf }}</div>
+            <div class="info"><strong>Data de Nascimento:</strong> {{ pedido.cliente.datanascimento }}</div>
+        </div>
+        <div class="conteudo">
+            <table class="table">
+                <tr>
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th>Qtd</th>
+                    <th>Valor Unitário</th>
+                    <th>Total</th>
+                </tr>
+                {% for item in pedido.itempedido_set.all %}
+                <tr>
+                    <td>{{ item.produto.id }}</td>
+                    <td>{{ item.produto.nome }}</td>
+                    <td>{{ item.qtde }}</td>
+                    <td>R$ {{ item.preco|floatformat:2 }}</td>
+                    <td>R$ {{ item.calculoTotal|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="conteudo">
+            <div class="left"><strong>ICMS........:</strong> R$ {{ icms|floatformat:2 }}</div>
+            <div class="right"><strong>IPI............:</strong> R$ {{ ipi|floatformat:2 }}</div>
+            <br>
+            
+            <div class="left"><strong>PIS...........:</strong> R$ {{ pis|floatformat:2 }}</div>
+            <div class="right"><strong>COFINS...:</strong> R$ {{ cofins|floatformat:2 }}</div>
+            <br>
+        </div>
+        <div class="conteudo">
+            <div><strong>Total..........:</strong> R$ {{ total|floatformat:2 }}</div>
+            <div><strong>Impostos...:</strong> R$ {{ total_impostos|floatformat:2 }}</div>
+            <div><strong>Valor Final.:</strong> R$ {{ valor_final|floatformat:2 }}</div>
+        </div>
+        
+        <div class="footer">Recebemos os produtos constantes nesta nota fiscal.</div>
+    </div>
+    <div class="btn-container">
+        <button class="btn btn-primary" onclick="gerarPDF()">Baixar Nota Fiscal em PDF</button>
+    </div>
+</body>
+</html>

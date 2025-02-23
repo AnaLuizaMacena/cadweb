@@ -3,6 +3,7 @@ from django.db import transaction, IntegrityError
 from django.contrib import messages
 from django.http import JsonResponse
 from django.apps import apps
+from decimal import Decimal
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from .models import *
@@ -312,6 +313,7 @@ def detalhes_pedido(request, id):
         else:
             messages.error(request, 'Erro ao adicionar produto')
 
+
     contexto = {
         'pedido': pedido,
         'form': form,
@@ -334,6 +336,7 @@ def remover_item_pedido(request, id):
     # Remove o item do pedido
     item_pedido.delete()
     messages.success(request, 'Operação realizada com Sucesso')
+
 
     # Redireciona de volta para a página de detalhes do pedido
     return redirect('detalhes_pedido', id=pedido_id)
@@ -363,6 +366,7 @@ def remover_pedido(request, id):
         messages.error(request, 'Erro ao atualizar estoque. Produto não encontrado.')
 
     return redirect('pedido')
+
 
 @login_required
 def editar_item_pedido(request, id):
@@ -450,3 +454,20 @@ def remover_pagamento(request, id):
         return redirect('form_pagamento', id=pagamento_id)
     
     return redirect('form_pagamento', id=pagamento_id)
+
+def notafiscal(request, pedido_id):
+    pedido = get_object_or_404(Pedido, id=pedido_id)
+    
+    context = {
+        "pedido": pedido,
+        "chave_acesso": pedido.chave_acesso,
+        "icms": pedido.icms,
+        "ipi": pedido.ipi,
+        "pis": pedido.pis,
+        "cofins": pedido.cofins,
+        "total": pedido.total,
+        "total_impostos": pedido.impostos_totais,
+        "valor_final": pedido.valor_final,
+    }
+    
+    return render(request, "notafiscal/notafiscal.html", context)
